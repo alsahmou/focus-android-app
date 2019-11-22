@@ -1,0 +1,56 @@
+{% extends "admin/change_form.html" %}
+{% load i18n admin_modify pages_tags staticfiles admin_urls %}
+
+{% block title %}{% trans "Edit" %}{% endblock %}
+
+{% block extrahead %}{{ block.super }}
+<script type="text/javascript" src="{% static "admin/js/urlify.js" %}"></script>
+<script type="text/javascript">var static_url = "{% static "" %}";</script>
+{% endblock %}
+
+{% block content %}
+<!-- Content -->
+<div id="content-main">
+
+{% if change %}{% if not is_popup %}
+  <ul class="object-tools grp-object-tools">
+    {% block object-tools-items %}
+    {% url opts|admin_urlname:'history' original.pk|admin_urlquote as history_url %}
+    <li><a href="{% add_preserved_filters history_url %}" class="historylink">{% trans "History" %}</a></li>
+    {% if has_absolute_url %}<li><a href="{% show_absolute_url original language %}?language={{ language }}" class="viewsitelink">{% trans "View on site" %}</a></li>{% endif%}
+    {% endblock %}
+  </ul>
+{% endif %}{% endif %}
+
+
+    <form id="page_form" {% if has_file_field %}enctype="multipart/form-data" {% endif %} action="?language={{ request.GET.language }}{%if request.GET.target %}&amp;target={{ request.GET.target }}{% endif %}&amp;{%if request.GET.position %}position={{ request.GET.position }}{% endif %}" method="post">
+        {% csrf_token %}
+        <div class="sidebar">
+
+        {% for fieldset in adminform %}
+            {% include "admin/pages/page/includes/fieldset.html" %}
+
+            {% if forloop.first %}
+                {% comment %}Close sidebar, open content{% endcomment %}
+                </div>
+                <div id="change-page-content">
+            {% endif %}
+        {% endfor %}
+
+
+        <div>
+        {% for inline_admin_formset in inline_admin_formsets %}
+            {% include inline_admin_formset.opts.template %}
+        {% endfor %}
+        </div>
+
+        </div>{% comment %}Close content{% endcomment %}
+
+        {% submit_row %}
+    </form>
+</div>
+<script>
+var add_form = {% if add %}1{% else %}0{% endif %};
+</script>
+<!-- END Content -->
+{% endblock %}
