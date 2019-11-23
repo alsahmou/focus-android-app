@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">Focus App</string>
+
+    <string-array name="tasksList">
+        <item>Code</item>
+        <item>French</item>
+        <item>Jobs</item>
+        <item>Tasks</item>
+    </string-array>
+
+    <string-array name="tasksIconsList">
+        <item>a</item>
+        <item>b</item>
+        <item>c</item>
+        <item>d</item>
+    </string-array>
 </resources>

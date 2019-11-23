@@ -100,5 +100,15 @@
         android:layout_height="wrap_content"
         android:textSize="14sp" />
 
+    <Button
+        android:id="@+id/taskManagerBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Task Manager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/resetBtn" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

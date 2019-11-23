@@ -3,6 +3,7 @@ package com.example.focusapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private Button mStartBtn;
     private Button mResetBtn;
     private Button mSetBtn;
+    private Button mTaskManager;
 
     private boolean mTimerRunning;
     private boolean hasFinished;
@@ -69,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
         mStartBtn = findViewById(R.id.startBtn);
         mResetBtn = findViewById(R.id.resetBtn);
         mSetBtn = findViewById(R.id.setBtn);
+        mTaskManager = findViewById(R.id.taskManagerBtn);
 
         chronometer = findViewById(R.id.chronometer);
         chronometer.setFormat("Extra Time: %s");
@@ -88,7 +91,14 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
+        mTaskManager.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("Task manager button clicked");
+                Intent taskManagerIntent = new Intent(getApplicationContext(), TaskManager.class);
+                startActivity(taskManagerIntent);
+            }
+        });
 
         mSetBtn.setOnClickListener(new View.OnClickListener() {
             @Override

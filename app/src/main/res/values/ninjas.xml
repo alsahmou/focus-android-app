@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="ninja_icons">
+        <item>@drawable/red</item>
+        <item>@drawable/white</item>
+        <item>@drawable/yellow</item>
+        <item>@drawable/turquoise</item>
+    </array>
+</resources>
