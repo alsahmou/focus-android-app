@@ -10,20 +10,20 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.focusapp.R;
+import java.util.ArrayList;
 
 
 public class ImageAndTextAdapter extends ArrayAdapter<String> {
 
     private LayoutInflater mInflater;
 
-    private String[] mStrings;
+    private ArrayList<String> mStrings;
     private TypedArray mIcons;
 
     private int mViewResourceId;
 
     public ImageAndTextAdapter(Context ctx, int viewResourceId,
-                               String[] strings, TypedArray icons) {
+                               ArrayList<String> strings, TypedArray icons) {
         super(ctx, viewResourceId, strings);
 
         mInflater = (LayoutInflater)ctx.getSystemService(
@@ -37,12 +37,12 @@ public class ImageAndTextAdapter extends ArrayAdapter<String> {
 
     @Override
     public int getCount() {
-        return mStrings.length;
+        return mStrings.size();
     }
 
     @Override
     public String getItem(int position) {
-        return mStrings[position];
+        return mStrings.get(position);
     }
 
     @Override
@@ -58,8 +58,12 @@ public class ImageAndTextAdapter extends ArrayAdapter<String> {
         iv.setImageDrawable(mIcons.getDrawable(position));
 
         TextView tv = (TextView)convertView.findViewById(R.id.textView);
-        tv.setText(mStrings[position]);
+        tv.setText(mStrings.get(position));
 
         return convertView;
     }
+
+    /*public String getTaskAt(int position) {
+        return mStrings.get(position);
+    }*/
 }

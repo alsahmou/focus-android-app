@@ -8,13 +8,13 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:id="@+id/imageView"/>
-
+    <!-- fix id of text view to textView-->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:textStyle="bold"
         android:textSize="15sp"
-        android:id="@+id/textView"/>
+        android:id="@+id/textsView"/>
 
     <ListView
         android:layout_width="match_parent"

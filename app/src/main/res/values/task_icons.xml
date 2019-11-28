@@ -5,5 +5,10 @@
         <item>@drawable/white</item>
         <item>@drawable/yellow</item>
         <item>@drawable/turquoise</item>
+        <item>@drawable/dark_blue_icon</item>
+        <item>@drawable/green_icon</item>
+        <item>@drawable/purple_icon</item>
+        <item>@drawable/red_icon</item>
+        <item>@drawable/yellow_icon</item>
     </array>
 </resources>

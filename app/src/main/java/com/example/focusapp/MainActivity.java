@@ -1,21 +1,20 @@
 package com.example.focusapp;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.util.Log;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.os.*;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Arrays;
 import java.util.List;
@@ -95,8 +94,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 System.out.println("Task manager button clicked");
-                Intent taskManagerIntent = new Intent(getApplicationContext(), TaskManager.class);
+                Intent taskManagerIntent = new Intent(getApplicationContext(), trying.class);
+                System.out.println("Intent at main" + taskManagerIntent);
                 startActivity(taskManagerIntent);
+                System.out.println("startActivity called in main");
             }
         });
 
@@ -232,9 +233,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void closeKeyboard() {
+    public void closeKeyboard() {
         View view = this.getCurrentFocus();
         if (view != null) {
+            System.out.println("Closing keyboard");
             InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
