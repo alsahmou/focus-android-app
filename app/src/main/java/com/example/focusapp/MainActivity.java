@@ -33,23 +33,21 @@ public class MainActivity extends AppCompatActivity {
     private Button mStartBtn;
     private Button mResetBtn;
     private Button mSetBtn;
-    private Button mTaskManager;
+    private Button mTaskManagerBtn;
 
     private boolean mTimerRunning;
-    private boolean hasFinished;
+    private boolean mChronoRunning;
 
     private long mStartTimeInMillis;
     private long mTimeLeftInMillis;
     private long mEndTime;
+    private long chronometerTime = 0;
 
     private int totalTime = 0;
     private int i = 0;
-    private long chronometerTime = 0;
 
     private CountDownTimer mCountDownTimer;
     private Chronometer chronometer;
-
-    private boolean running;
 
     final Handler handler = new Handler();
 
@@ -70,56 +68,56 @@ public class MainActivity extends AppCompatActivity {
         mStartBtn = findViewById(R.id.startBtn);
         mResetBtn = findViewById(R.id.resetBtn);
         mSetBtn = findViewById(R.id.setBtn);
-        mTaskManager = findViewById(R.id.taskManagerBtn);
+        mTaskManagerBtn = findViewById(R.id.taskManagerBtn);
 
         chronometer = findViewById(R.id.chronometer);
         chronometer.setFormat("Extra Time: %s");
         chronometer.setBase(SystemClock.elapsedRealtime());
 
-        /*if (savedInstanceState != null ){
-            hasFinished = savedInstanceState.getBoolean("hasFinished");
-
-        }
-        System.out.println("Has finished in on create"+hasFinished);*/
-
         mTimerRunning = false;
-        hasFinished = false;
+        mChronoRunning = false;
 
-        /*mStartTimeInMillis = 1500000;*/
+        /*Default value of the timer, set at 25 minutes*/
         mTimeLeftInMillis = 1500000;
 
 
-
-        mTaskManager.setOnClickListener(new View.OnClickListener() {
+        /*Button redirects the user to the Task Manager App, the intent is set as the taskManagerIntent then called by startActivity method */
+        mTaskManagerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("Task manager button clicked");
-                Intent taskManagerIntent = new Intent(getApplicationContext(), trying.class);
-                System.out.println("Intent at main" + taskManagerIntent);
+                Intent taskManagerIntent = new Intent(getApplicationContext(), TaskManager.class);
                 startActivity(taskManagerIntent);
-                System.out.println("startActivity called in main");
             }
         });
 
+        /*Button allows the user to set the time for the timer*/
         mSetBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String timeInput = mTimeEditText.getText().toString();
+
+                /*If the input is empty, it returns an error to the user and deny them from setting the time*/
                 if (timeInput.length() == 0){
                     Toast.makeText(MainActivity.this, "Field can't be empty", Toast.LENGTH_SHORT).show();
                     return;
                 }
+
+                /*Changes the input in milliseconds to minutes*/
                 long millisInput = Long.parseLong(timeInput) * 60000;
 
+                /*If the input is 0, it returns an error to the user and deny them from setting the time, negative values are not allowed to be entered by the EditText view*/
                 if (millisInput == 0) {
                     Toast.makeText(MainActivity.this, "Please enter a positive number", Toast.LENGTH_SHORT).show();
                     return;
                 }
+
                 setTime(millisInput);
+                /*Resets the EdtiText'v view*/
                 mTimeEditText.setText("");
             }
         });
 
+        /*Button allows the user to start the timer*/
         mStartBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -127,16 +125,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        /*Button allows the user to reset the timer*/
         mResetBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 chronometerTime = SystemClock.elapsedRealtime() - chronometer.getBase();
-                System.out.println("Stopwatch time" + chronometerTime);
                 updateTotalTime();
                 resetTimer();
             }
         });
 
+        /*Update both timer and interface onCreate*/
         updateCountDownText();
         updateInterface();
 
@@ -144,35 +143,36 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
+    /*Set time function to set the start time of the timer in milliseconds*/
     private void setTime(long milliseconds){
         mStartTimeInMillis = milliseconds;
         resetTimer();
         closeKeyboard();
     }
 
-
+    /*Start time function to start the timer once called
+    Timer end time is set by adding the system's current time to the set time
+     */
     private void startTimer() {
-
         closeKeyboard();
-
         mTimeLeftInMillis = mStartTimeInMillis;
         mEndTime = System.currentTimeMillis() + mTimeLeftInMillis;
 
+        /*onTick updates the timer and timer text every 100 milliseconds intervals*/
         mCountDownTimer = new CountDownTimer(mTimeLeftInMillis, 100) {
             @Override
             public void onTick(long millisUntilFinished) {
 
                 mTimerRunning = true;
                 mTimeLeftInMillis = millisUntilFinished;
-                hasFinished = false;
+                mChronoRunning = false;
                 updateCountDownText();
             }
-
+            /*Once the timer finishes the chronometer starts and sets its base time to the system's current time*/
             @Override
             public void onFinish() {
                 mTimerRunning = false;
-                hasFinished = true;
+                mChronoRunning = true;
                 chronometer.setBase(SystemClock.elapsedRealtime());
                 chronometer.start();
                 updateInterface();
@@ -184,23 +184,21 @@ public class MainActivity extends AppCompatActivity {
         updateInterface();
     }
 
+    /*Reset timer function to stop the timer from running at any given time*/
     private void resetTimer() {
         if (mCountDownTimer != null) {
             mCountDownTimer.cancel();
         }
-        /*mCountDownTimer.cancel();*/
         mTimerRunning = false;
-        hasFinished = false;
-        System.out.println("Timerrunning?"+ mTimerRunning);
-        System.out.println("mStartTimeinMillis in reset function is"+ mStartTimeInMillis);
+        mChronoRunning = false;
         mTimeLeftInMillis = mStartTimeInMillis;
-        System.out.println("mTimeLeftinmillis in reset function is"+ mTimeLeftInMillis);
         updateCountDownText();
         chronometer.stop();
 
         updateInterface();
     }
 
+    /*Function to update the timer's text in seconds, minutes and hours*/
     private void updateCountDownText() {
 
         int hours = (int) (mTimeLeftInMillis / 1000) / 3600;
@@ -219,33 +217,34 @@ public class MainActivity extends AppCompatActivity {
         mTimerTextView.setText(timeLeftFormatted);
     }
 
+    /*Function to update the total time used by the user on the app*/
     private void updateTotalTime() {
 
         if (!mTimerRunning) {
-            System.out.println("Stopwatch time in update total" + chronometerTime);
             int seconds = (int) ((mStartTimeInMillis + chronometerTime) / 1000);
             totalTime+= seconds;
 
             mTotalTextView.setText(totalTime+"Seconds");
         }
 
-
-
     }
 
+    /*Function to close the keyboard, to be used once the user is done inputting into the app*/
     public void closeKeyboard() {
         View view = this.getCurrentFocus();
         if (view != null) {
-            System.out.println("Closing keyboard");
             InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
 
+    /*Function to update the interface during various states of the app usage*/
     private void updateInterface() {
-        if (mTimerRunning) {
-            if (!hasFinished) {
 
+        if (mTimerRunning) {
+
+            /*If the timer is running but the chronometer has not started running yet*/
+            if (!mChronoRunning) {
                 mTimeEditText.setVisibility(View.INVISIBLE);
                 mTimerTextView.setVisibility(View.VISIBLE);
                 mTotalTextView.setVisibility(View.INVISIBLE);
@@ -258,6 +257,7 @@ public class MainActivity extends AppCompatActivity {
                 mResetBtn.setText("GIVE UP");
                 mMotivateTextView.setText(""+motivationTexts.get(i));
 
+                /*Handler used to update the texts by looping through an arraylist*/
                 handler.post(new Runnable(){
                     @Override
                     public void run() {
@@ -269,7 +269,6 @@ public class MainActivity extends AppCompatActivity {
                         else {
                             i = 0;
                             handler.postDelayed(this, 10000);
-                            System.out.println(i);
                         }
                     }
 
@@ -279,8 +278,8 @@ public class MainActivity extends AppCompatActivity {
 
         else {
             handler.removeCallbacksAndMessages(null);
-            if (hasFinished) {
-                System.out.println("Has finished inside update interface");
+            /*If the timer is not running and the chronometer is running*/
+            if (mChronoRunning) {
                 mTimeEditText.setVisibility(View.INVISIBLE);
                 mTimerTextView.setVisibility(View.VISIBLE);
                 mTotalTextView.setVisibility(View.INVISIBLE);
@@ -295,7 +294,7 @@ public class MainActivity extends AppCompatActivity {
 
 
             }
-
+            /*If both timer and chronometer are not running*/
             else {
 
                 mTimeEditText.setVisibility(View.VISIBLE);
@@ -308,111 +307,13 @@ public class MainActivity extends AppCompatActivity {
                 mSecondaryTextView.setVisibility(View.VISIBLE);
                 chronometer.setText("00:00");
 
-
-
             }
         }
 
 
     }
 
-    /* OLD USER INTERFACE private void updateInterface() {
-
-        if (mTimerRunning) {
-            mTimeEditText.setVisibility(View.INVISIBLE);
-
-            mTotalTextView.setVisibility(View.INVISIBLE);
-            mMotivateTextView.setVisibility(View.VISIBLE);
-            mMotivateTextView.setText(""+motivationTexts.get(i));
-            mMotivateTextView.setTextColor(Color.RED);
-
-            mSetBtn.setVisibility(View.INVISIBLE);
-            mStartBtn.setVisibility(View.INVISIBLE);
-            mResetBtn.setVisibility(View.VISIBLE);
-            mResetBtn.setText("GIVE UP");
-
-
-            handler.post(new Runnable(){
-                @Override
-                public void run() {
-                    mMotivateTextView.setText(""+motivationTexts.get(i));
-                    i++;
-                    if(i < motivationTexts.size()) {
-                        handler.postDelayed(this, 1000);
-                    }
-                    else {
-                        i = 0;
-                        handler.postDelayed(this, 1000);
-                        System.out.println(i);
-                    }
-                }
-
-            });
-        }
-
-        else {
-            mTimeEditText.setVisibility(View.VISIBLE);
-
-            mTotalTextView.setVisibility(View.VISIBLE);
-            mMotivateTextView.setVisibility(View.INVISIBLE);
-
-            mStartBtn.setVisibility(View.VISIBLE);
-            mResetBtn.setVisibility(View.INVISIBLE);
-            mSetBtn.setVisibility(View.VISIBLE);
-
-            handler.removeCallbacksAndMessages(null);
-
-            if (hasFinished) {
-                mTotalTextView.setVisibility(View.INVISIBLE);
-                mMotivateTextView.setVisibility(View.VISIBLE);
-                mMotivateTextView.setText("Good Job!!");
-                mMotivateTextView.setTextColor(Color.BLUE);
-
-
-                mStartBtn.setVisibility(View.INVISIBLE);
-                mResetBtn.setVisibility(View.VISIBLE);
-                mResetBtn.setText("Stop");
-            }
-        }
-    }*/
-
-
-    /*Not sure if I need the next 2 blocks or not, investigate after fixing count down timer*/
-
-
-
-   /* @Override
-    protected void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        outState.putLong("millisLeft", mTimeLeftInMillis);
-        outState.putBoolean("timerRunning", mTimerRunning);
-        outState.putBoolean("hasFinished", hasFinished);
-        outState.putLong("endTime", mEndTime);
-
-
-
-    }
-
-    @Override
-    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-
-        mTimeLeftInMillis = savedInstanceState.getLong("millisLeft");
-        mTimerRunning = savedInstanceState.getBoolean("timerRunning");
-        System.out.println("Has finished in restore state"+hasFinished);
-        System.out.println("timer running in restore state"+mTimerRunning);
-        updateCountDownText();
-        updateInterface();
-
-        if (mTimerRunning) {
-            mEndTime = savedInstanceState.getLong("mEndTime");
-            mTimeLeftInMillis = mEndTime - System.currentTimeMillis();
-            startTimer();
-        }
-
-    }*/
-
+    /*Function to kill the app if the user exists the application*/
     protected void onPause() {
         super.onPause();
         android.os.Process.killProcess(android.os.Process.myPid());

@@ -57,7 +57,7 @@ public class ImageAndTextAdapter extends ArrayAdapter<String> {
         ImageView iv = (ImageView)convertView.findViewById(R.id.imageView);
         iv.setImageDrawable(mIcons.getDrawable(position));
 
-        TextView tv = (TextView)convertView.findViewById(R.id.textView);
+        TextView tv = (TextView)convertView.findViewById(R.id.textsView);
         tv.setText(mStrings.get(position));
 
         return convertView;
