@@ -1,4 +1,4 @@
-package com.example.focusapp;
+package com.alsahmou.focusapp;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -76,9 +76,19 @@ public class TaskManagerAdapter extends RecyclerView.Adapter<TaskManagerAdapter.
     @Override
     public void onBindViewHolder(TaskViewHolder holder, int position) {
 
+        int [] dynamicIcons = new int[Constants.TASKS_ICONS.length];
+
+        dynamicIcons = Constants.TASKS_ICONS;
+
+        dynamicIcons[0]++;
+
+        System.out.println(dynamicIcons);
+
         TaskConstructor currentItem = mTasksList.get(position);
-        holder.mTaskIconImage.setImageResource(Constants.taskIconsList[position]);
+        /*holder.mTaskIconImage.setImageResource(Constants.TASKS_ICONS[position]);*/
+        holder.mTaskIconImage.setImageResource(dynamicIcons[position]);
         holder.mTaskNameTextView.setText(currentItem.getTaskName());
+
     }
 
     /*Returns the size of the array*/
@@ -92,10 +102,10 @@ public class TaskManagerAdapter extends RecyclerView.Adapter<TaskManagerAdapter.
 
 
 
-/*int[] taskIconsList = new int[]{R.drawable.purple_icon, R.drawable.red, R.drawable.dark_blue_icon, R.drawable.yellow_icon};*/
+/*int[] TASKS_ICONS = new int[]{R.drawable.purple_icon, R.drawable.red, R.drawable.dark_blue_icon, R.drawable.yellow_icon};*/
 
 
-/*int[] taskIconsList = new int[]{R.drawable.purple_icon, R.drawable.red, R.drawable.dark_blue_icon, R.drawable.yellow_icon};*/
+/*int[] TASKS_ICONS = new int[]{R.drawable.purple_icon, R.drawable.red, R.drawable.dark_blue_icon, R.drawable.yellow_icon};*/
 
 
 /*holder.mTaskIconImage.setImageResource(currentItem.getTaskIcon());*/

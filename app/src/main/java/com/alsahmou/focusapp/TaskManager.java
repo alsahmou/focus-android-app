@@ -1,4 +1,4 @@
-package com.example.focusapp;
+package com.alsahmou.focusapp;
 
 import android.os.Bundle;
 import android.view.View;
@@ -90,12 +90,11 @@ public class TaskManager extends AppCompatActivity {
             @Override
             public void onDeleteClick(int position) {
                 deleteTask(position);
-                mAdapter.notifyItemRemoved(position);
             }
         });
     }
 
-    /*Controls the buttons functionalities*/
+    /*Controls the buttons functionality*/
     public void setButtons(){
         mInsertBtn = findViewById(R.id.addTaskBtn);
 
@@ -112,7 +111,7 @@ public class TaskManager extends AppCompatActivity {
                     return;
                 }
                 /*If the user has reached the max amount of tasks allowed*/
-                if (mTasksList.size() == Constants.taskIconsList.length){
+                if (mTasksList.size() == Constants.TASKS_ICONS.length){
                     Toast.makeText(TaskManager.this, "Max amount of tasks reached", Toast.LENGTH_SHORT).show();
                     return;
                 }

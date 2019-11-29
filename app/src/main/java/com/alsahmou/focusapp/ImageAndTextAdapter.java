@@ -1,4 +1,4 @@
-package com.example.focusapp;
+package com.alsahmou.focusapp;
 
 
 import android.content.Context;

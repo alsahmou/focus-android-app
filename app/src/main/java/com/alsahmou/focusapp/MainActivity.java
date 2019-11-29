@@ -1,4 +1,4 @@
-package com.example.focusapp;
+package com.alsahmou.focusapp;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -16,8 +16,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Locale;
 
 
@@ -44,14 +42,14 @@ public class MainActivity extends AppCompatActivity {
     private long chronometerTime = 0;
 
     private int totalTime = 0;
-    private int i = 0;
+    private int motivationTextsPointer = 0;
 
     private CountDownTimer mCountDownTimer;
     private Chronometer chronometer;
 
     final Handler handler = new Handler();
 
-    List<String> motivationTexts = Arrays.asList("Leave me alone!", "Focus!", "Don't look at me!", "Almost there!", "Get back to work!");
+    final long DEFAULT_TIMER_VALUE = 25 * 60 * 1000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,9 +75,8 @@ public class MainActivity extends AppCompatActivity {
         mTimerRunning = false;
         mChronoRunning = false;
 
-        /*Default value of the timer, set at 25 minutes*/
-        mTimeLeftInMillis = 1500000;
-
+        mStartTimeInMillis = DEFAULT_TIMER_VALUE;
+        mTimeLeftInMillis = DEFAULT_TIMER_VALUE;
 
         /*Button redirects the user to the Task Manager App, the intent is set as the taskManagerIntent then called by startActivity method */
         mTaskManagerBtn.setOnClickListener(new View.OnClickListener() {
@@ -111,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
 
-                setTime(millisInput);
+                setTimer(millisInput);
                 /*Resets the EdtiText'v view*/
                 mTimeEditText.setText("");
             }
@@ -144,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     /*Set time function to set the start time of the timer in milliseconds*/
-    private void setTime(long milliseconds){
+    private void setTimer(long milliseconds){
         mStartTimeInMillis = milliseconds;
         resetTimer();
         closeKeyboard();
@@ -255,21 +252,15 @@ public class MainActivity extends AppCompatActivity {
                 mSecondaryTextView.setVisibility(View.INVISIBLE);
                 mMotivateTextView.setTextColor(Color.RED);
                 mResetBtn.setText("GIVE UP");
-                mMotivateTextView.setText(""+motivationTexts.get(i));
+                mMotivateTextView.setText(Constants.MOTIVATION_TEXTS.get(motivationTextsPointer));
 
                 /*Handler used to update the texts by looping through an arraylist*/
                 handler.post(new Runnable(){
                     @Override
                     public void run() {
-                        mMotivateTextView.setText(""+motivationTexts.get(i));
-                        i++;
-                        if(i < motivationTexts.size()) {
-                            handler.postDelayed(this, 10000);
-                        }
-                        else {
-                            i = 0;
-                            handler.postDelayed(this, 10000);
-                        }
+                        mMotivateTextView.setText(Constants.MOTIVATION_TEXTS.get(motivationTextsPointer % Constants.MOTIVATION_TEXTS.size()));
+                        motivationTextsPointer++;
+                        handler.postDelayed(this, 10000);
                     }
 
                 });
@@ -322,3 +313,15 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
+
+  /*if(motivationTextsPointer < Constants.MOTIVATION_TEXTS.size()) {
+                            handler.postDelayed(this, 10000);
+                        }
+                        else {
+                            motivationTextsPointer = 0;
+                            handler.postDelayed(this, 10000);
+                        }*/
+
+
+/*List<String> motivationTexts = Arrays.asList("Leave me alone!", "Focus!", "Don't look at me!", "Almost there!", "Get back to work!");*/

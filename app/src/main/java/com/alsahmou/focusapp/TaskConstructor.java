@@ -1,4 +1,4 @@
-package com.example.focusapp;
+package com.alsahmou.focusapp;
 
 /*Class to construct tasks by putting task icons and names together*/
 public class TaskConstructor {
