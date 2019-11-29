@@ -10,7 +10,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".TaskManager" />
-        <activity android:name=".TaskManagerOld" />
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|keyboardHidden"

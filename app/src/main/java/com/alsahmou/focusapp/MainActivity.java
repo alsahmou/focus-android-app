@@ -315,13 +315,3 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-  /*if(motivationTextsPointer < Constants.MOTIVATION_TEXTS.size()) {
-                            handler.postDelayed(this, 10000);
-                        }
-                        else {
-                            motivationTextsPointer = 0;
-                            handler.postDelayed(this, 10000);
-                        }*/
-
-
-/*List<String> motivationTexts = Arrays.asList("Leave me alone!", "Focus!", "Don't look at me!", "Almost there!", "Get back to work!");*/
