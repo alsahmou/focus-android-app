@@ -16,15 +16,3 @@ public class TaskConstructor {
 }
 
 
-
- /*public int getTaskIcon() {
-        return mTaskIcon;
-    }*/
-/*private int mTaskIcon;*/
-
-/*mTaskIcon = imageResource;*/
-
- /*public void changeText1(String text){
-        mTaskName = text;
-    }*/
-

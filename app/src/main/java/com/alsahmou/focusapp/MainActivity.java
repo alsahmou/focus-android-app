@@ -48,9 +48,7 @@ public class MainActivity extends AppCompatActivity {
     private Chronometer chronometer;
 
     final Handler handler = new Handler();
-
-    final long DEFAULT_TIMER_VALUE = 25 * 60 * 1000;
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,8 +73,8 @@ public class MainActivity extends AppCompatActivity {
         mTimerRunning = false;
         mChronoRunning = false;
 
-        mStartTimeInMillis = DEFAULT_TIMER_VALUE;
-        mTimeLeftInMillis = DEFAULT_TIMER_VALUE;
+        mStartTimeInMillis = Constants.DEFAULT_TIMER_VALUE;
+        mTimeLeftInMillis = Constants.DEFAULT_TIMER_VALUE;
 
         /*Button redirects the user to the Task Manager App, the intent is set as the taskManagerIntent then called by startActivity method */
         mTaskManagerBtn.setOnClickListener(new View.OnClickListener() {

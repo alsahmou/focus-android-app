@@ -64,7 +64,6 @@ public class TaskManager extends AppCompatActivity {
     public void createTasksList() {
 
         mTasksList = new ArrayList<>();
-
         mTasksList.add(new TaskConstructor("Line1"));
 
     }
@@ -130,39 +129,3 @@ public class TaskManager extends AppCompatActivity {
 
 
 
-
-
-
-/*private Button buttonRemove;*/
-
-/*private EditText editTextRemove;*/
-
-
-      /*final Context context = getApplicationContext();
-        Resources resources = context.getResources();
-        final TypedArray task_icons = resources.obtainTypedArray(R.array.task_icons);*/
-
-
-
-/*changeItem(position,"Clicked");*/
-
-  /*public void changeItem(int position, String text) {
-        mTasksList.get(position).changeText1(text);
-        mAdapter.notifyItemChanged(position);
-
-
-    }*/
-
-/*buttonRemove = findViewById(R.id.button_remove);*/
-
-/*editTextRemove = findViewById(R.id.edittext_remove);*/
-
-/*buttonRemove.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                int position = Integer.parseInt(editTextRemove.getText().toString());
-                mTasksList.remove(position);
-
-            }
-        });*/
