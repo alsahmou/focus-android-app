@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class TaskManagerAdapter extends RecyclerView.Adapter<TaskManagerAdapter.TaskViewHolder> {
@@ -76,17 +77,12 @@ public class TaskManagerAdapter extends RecyclerView.Adapter<TaskManagerAdapter.
     @Override
     public void onBindViewHolder(TaskViewHolder holder, int position) {
 
-        int [] dynamicIcons = new int[Constants.TASKS_ICONS.length];
-
+        List<Integer> dynamicIcons;
         dynamicIcons = Constants.TASKS_ICONS;
-
-        dynamicIcons[0]++;
-
-        System.out.println(dynamicIcons);
 
         TaskConstructor currentItem = mTasksList.get(position);
         /*holder.mTaskIconImage.setImageResource(Constants.TASKS_ICONS[position]);*/
-        holder.mTaskIconImage.setImageResource(dynamicIcons[position]);
+        holder.mTaskIconImage.setImageResource(dynamicIcons.get(position));
         holder.mTaskNameTextView.setText(currentItem.getTaskName());
 
     }

@@ -110,7 +110,7 @@ public class TaskManager extends AppCompatActivity {
                     return;
                 }
                 /*If the user has reached the max amount of tasks allowed*/
-                if (mTasksList.size() == Constants.TASKS_ICONS.length){
+                if (mTasksList.size() == Constants.TASKS_ICONS.size()){
                     Toast.makeText(TaskManager.this, "Max amount of tasks reached", Toast.LENGTH_SHORT).show();
                     return;
                 }

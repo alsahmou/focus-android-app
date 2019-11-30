@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.time.Duration;
 import java.util.Locale;
 
 
@@ -39,16 +40,16 @@ public class MainActivity extends AppCompatActivity {
     private long mStartTimeInMillis;
     private long mTimeLeftInMillis;
     private long mEndTime;
-    private long chronometerTime = 0;
+    private long mChronometerTime = 0;
 
-    private int totalTime = 0;
-    private int motivationTextsPointer = 0;
+    private int mTotalTime = 0;
+    private int mMotivationtextsPointer = 0;
 
     private CountDownTimer mCountDownTimer;
-    private Chronometer chronometer;
+    private Chronometer mChronometer;
 
     final Handler handler = new Handler();
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,15 +67,16 @@ public class MainActivity extends AppCompatActivity {
         mSetBtn = findViewById(R.id.setBtn);
         mTaskManagerBtn = findViewById(R.id.taskManagerBtn);
 
-        chronometer = findViewById(R.id.chronometer);
-        chronometer.setFormat("Extra Time: %s");
-        chronometer.setBase(SystemClock.elapsedRealtime());
+        mChronometer = findViewById(R.id.chronometer);
+        mChronometer.setFormat("Extra Time: %s");
+        mChronometer.setBase(SystemClock.elapsedRealtime());
 
         mTimerRunning = false;
         mChronoRunning = false;
 
         mStartTimeInMillis = Constants.DEFAULT_TIMER_VALUE;
         mTimeLeftInMillis = Constants.DEFAULT_TIMER_VALUE;
+
 
         /*Button redirects the user to the Task Manager App, the intent is set as the taskManagerIntent then called by startActivity method */
         mTaskManagerBtn.setOnClickListener(new View.OnClickListener() {
@@ -124,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
         mResetBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                chronometerTime = SystemClock.elapsedRealtime() - chronometer.getBase();
+                mChronometerTime = SystemClock.elapsedRealtime() - mChronometer.getBase();
                 updateTotalTime();
                 resetTimer();
             }
@@ -168,8 +170,8 @@ public class MainActivity extends AppCompatActivity {
             public void onFinish() {
                 mTimerRunning = false;
                 mChronoRunning = true;
-                chronometer.setBase(SystemClock.elapsedRealtime());
-                chronometer.start();
+                mChronometer.setBase(SystemClock.elapsedRealtime());
+                mChronometer.start();
                 updateInterface();
 
             }
@@ -188,17 +190,21 @@ public class MainActivity extends AppCompatActivity {
         mChronoRunning = false;
         mTimeLeftInMillis = mStartTimeInMillis;
         updateCountDownText();
-        chronometer.stop();
+        mChronometer.stop();
 
         updateInterface();
     }
 
+
+
     /*Function to update the timer's text in seconds, minutes and hours*/
     private void updateCountDownText() {
 
-        int hours = (int) (mTimeLeftInMillis / 1000) / 3600;
-        int minutes = (int) ((mTimeLeftInMillis / 1000) % 3600) / 60;
-        int seconds = (int) (mTimeLeftInMillis / 1000) % 60;
+        Duration totalTime = Duration.ofMillis(mTimeLeftInMillis);
+        long hours = totalTime.toHours();
+        long minusMinutes = totalTime.toMinutes();
+        long minutes = totalTime.minusHours(hours).toMinutes();
+        long seconds = totalTime.minusMinutes(minusMinutes).getSeconds();
 
         String timeLeftFormatted;
         if (hours > 0) {
@@ -216,10 +222,10 @@ public class MainActivity extends AppCompatActivity {
     private void updateTotalTime() {
 
         if (!mTimerRunning) {
-            int seconds = (int) ((mStartTimeInMillis + chronometerTime) / 1000);
-            totalTime+= seconds;
+            int seconds = (int) ((mStartTimeInMillis + mChronometerTime) / 1000);
+            mTotalTime+= seconds;
 
-            mTotalTextView.setText(totalTime+"Seconds");
+            mTotalTextView.setText(mTotalTime+"Seconds");
         }
 
     }
@@ -250,14 +256,14 @@ public class MainActivity extends AppCompatActivity {
                 mSecondaryTextView.setVisibility(View.INVISIBLE);
                 mMotivateTextView.setTextColor(Color.RED);
                 mResetBtn.setText("GIVE UP");
-                mMotivateTextView.setText(Constants.MOTIVATION_TEXTS.get(motivationTextsPointer));
+                mMotivateTextView.setText(Constants.MOTIVATION_TEXTS.get(mMotivationtextsPointer));
 
                 /*Handler used to update the texts by looping through an arraylist*/
                 handler.post(new Runnable(){
                     @Override
                     public void run() {
-                        mMotivateTextView.setText(Constants.MOTIVATION_TEXTS.get(motivationTextsPointer % Constants.MOTIVATION_TEXTS.size()));
-                        motivationTextsPointer++;
+                        mMotivateTextView.setText(Constants.MOTIVATION_TEXTS.get(mMotivationtextsPointer % Constants.MOTIVATION_TEXTS.size()));
+                        mMotivationtextsPointer++;
                         handler.postDelayed(this, 10000);
                     }
 
@@ -294,10 +300,11 @@ public class MainActivity extends AppCompatActivity {
                 mResetBtn.setVisibility(View.INVISIBLE);
                 mSetBtn.setVisibility(View.VISIBLE);
                 mSecondaryTextView.setVisibility(View.VISIBLE);
-                chronometer.setText("00:00");
+                mChronometer.setText("00:00");
 
             }
         }
+
 
 
     }
@@ -307,7 +314,12 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
         android.os.Process.killProcess(android.os.Process.myPid());
     }
+
+
+
 }
+
+
 
 
 
