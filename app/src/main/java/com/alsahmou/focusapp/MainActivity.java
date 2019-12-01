@@ -2,15 +2,22 @@ package com.alsahmou.focusapp;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private Button mResetBtn;
     private Button mSetBtn;
     private Button mTaskManagerBtn;
+    private Button mTasksPopupBtn;
 
     private boolean mTimerRunning;
     private boolean mChronoRunning;
@@ -50,6 +58,9 @@ public class MainActivity extends AppCompatActivity {
 
     final Handler handler = new Handler();
 
+    private PopupWindow mTaskPopupWindow;
+    private RelativeLayout mRelativeLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
         mResetBtn = findViewById(R.id.resetBtn);
         mSetBtn = findViewById(R.id.setBtn);
         mTaskManagerBtn = findViewById(R.id.taskManagerBtn);
+        mTasksPopupBtn = findViewById(R.id.popupBtn);
 
         mChronometer = findViewById(R.id.chronometer);
         mChronometer.setFormat("Extra Time: %s");
@@ -76,6 +88,47 @@ public class MainActivity extends AppCompatActivity {
 
         mStartTimeInMillis = Constants.DEFAULT_TIMER_VALUE;
         mTimeLeftInMillis = Constants.DEFAULT_TIMER_VALUE;
+
+        mRelativeLayout = findViewById(R.id.mainRelativeLayout);
+
+        mTasksPopupBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /* Initialize a new instance of layoutInflater service*/
+                LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+
+                // Inflate the custom layout/view
+                View customView = inflater.inflate(R.layout.task_popup_layout,null);
+
+                // Initialize a new instance of popup window
+                mTaskPopupWindow = new PopupWindow(
+                        customView,
+                        LayoutParams.WRAP_CONTENT,
+                        LayoutParams.WRAP_CONTENT
+                );
+
+                // Set an elevation value for popup window
+                // Call requires API level 21
+                if(Build.VERSION.SDK_INT>=21){
+                    mTaskPopupWindow.setElevation(5.0f);
+                }
+
+                // Get a reference for the custom view close button
+                ImageButton closeButton = customView.findViewById(R.id.ib_close);
+
+                // Set a click listener for the popup window close button
+                closeButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        // Dismiss the popup window
+                        mTaskPopupWindow.dismiss();
+                    }
+                });
+
+                // Finally, show the popup window at the center location of root relative layout
+                mTaskPopupWindow.showAtLocation(mRelativeLayout, Gravity.CENTER,0,0);
+            }
+        });
 
 
         /*Button redirects the user to the Task Manager App, the intent is set as the taskManagerIntent then called by startActivity method */
