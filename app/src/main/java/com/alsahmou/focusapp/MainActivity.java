@@ -1,5 +1,7 @@
 package com.alsahmou.focusapp;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
@@ -16,6 +18,8 @@ import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -30,6 +34,7 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity {
 
     private EditText mTimeEditText;
+    private EditText mAddNoteEditText;
 
     private TextView mTimerTextView;
     private TextView mMotivateTextView;
@@ -91,11 +96,15 @@ public class MainActivity extends AppCompatActivity {
 
         mRelativeLayout = findViewById(R.id.mainRelativeLayout);
 
+        //popUpEditText();
+
         mTasksPopupBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                openDialoge();
                 /* Initialize a new instance of layoutInflater service*/
-                LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+                /*LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
 
                 // Inflate the custom layout/view
                 View customView = inflater.inflate(R.layout.task_popup_layout,null);
@@ -107,6 +116,8 @@ public class MainActivity extends AppCompatActivity {
                         LayoutParams.WRAP_CONTENT
                 );
 
+                popUpEditText();
+
                 // Set an elevation value for popup window
                 // Call requires API level 21
                 if(Build.VERSION.SDK_INT>=21){
@@ -115,6 +126,9 @@ public class MainActivity extends AppCompatActivity {
 
                 // Get a reference for the custom view close button
                 ImageButton closeButton = customView.findViewById(R.id.ib_close);
+                mAddNoteEditText = findViewById(R.id.addNoteEditText);
+
+
 
                 // Set a click listener for the popup window close button
                 closeButton.setOnClickListener(new View.OnClickListener() {
@@ -126,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
                 });
 
                 // Finally, show the popup window at the center location of root relative layout
-                mTaskPopupWindow.showAtLocation(mRelativeLayout, Gravity.CENTER,0,0);
+                mTaskPopupWindow.showAtLocation(mRelativeLayout, Gravity.CENTER,0,0);*/
             }
         });
 
@@ -188,6 +202,57 @@ public class MainActivity extends AppCompatActivity {
         /*Update both timer and interface onCreate*/
         updateCountDownText();
         updateInterface();
+
+    }
+
+
+    /*private void popUpEditText() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Notes");
+
+        ImageView image = new ImageView(this);
+        image.setImageResource(R.drawable.ic_android);
+
+        final EditText input = new EditText(this);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+        input.setLayoutParams(lp);
+        builder.setView(input);
+
+
+        builder.setNeutralButton("hi", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+
+        // Set up the buttons
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                // do something here on OK
+
+            }
+        });
+
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        builder.show();
+
+    }*/
+
+    public void openDialoge() {
+
+        ExampleDialog exampleDialog = new ExampleDialog();
+        exampleDialog.show(getSupportFragmentManager(), "example dialog");
 
     }
 
