@@ -11,12 +11,15 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatDialogFragment;
 
-public class ExampleDialog extends AppCompatDialogFragment {
+public class ExampleDialog extends AppCompatDialogFragment implements ExampleDialog1.ExampleDialogListner {
 
     private EditText editTextUsername;
     private TextView dialogText;
+    private ExampleDialog1 dialog;
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
@@ -51,6 +54,9 @@ public class ExampleDialog extends AppCompatDialogFragment {
 
         editTextUsername = view.findViewById(R.id.edit_username);
         dialogText = view.findViewById(R.id.dialogtext);
+        dialog = new ExampleDialog1();
+        System.out.println(dialog.mCurrentTask+"current task in first");
+        dialogText.setText(dialog.mCurrentTask);
         return builder.create();
 
     }
@@ -58,5 +64,10 @@ public class ExampleDialog extends AppCompatDialogFragment {
     public void openDialog1() {
         ExampleDialog1 exampleDialog = new ExampleDialog1();
         exampleDialog.show(getFragmentManager(), "asdasd");
+    }
+
+    @Override
+    public void applyTexts(String task) {
+        dialogText.setText(task);
     }
 }

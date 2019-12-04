@@ -31,7 +31,7 @@ import java.time.Duration;
 import java.util.Locale;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ExampleDialog1.ExampleDialogListner {
 
     private EditText mTimeEditText;
     private EditText mAddNoteEditText;
@@ -65,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
 
     private PopupWindow mTaskPopupWindow;
     private RelativeLayout mRelativeLayout;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -433,8 +434,10 @@ public class MainActivity extends AppCompatActivity {
         android.os.Process.killProcess(android.os.Process.myPid());
     }
 
+    @Override
+    public void applyTexts(String task) {
 
-
+    }
 }
 
 
