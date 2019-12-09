@@ -80,7 +80,7 @@ public class TaskManager extends AppCompatActivity {
         mRecyclerView.setAdapter(mAdapter);
 
         mAdapter.setOnItemClickListener(new TaskManagerAdapter.OnItemClickListener() {
-            /*OnClick method, not used but required by the setOnItemClickListner*/
+            /*OnClick method, not used but required by the setOnItemClicklistener*/
             @Override
             public void onItemClick(int position) {
             }

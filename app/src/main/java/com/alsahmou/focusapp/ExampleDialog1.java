@@ -21,7 +21,7 @@ public class ExampleDialog1 extends AppCompatDialogFragment {
     private RecyclerView.LayoutManager mLayoutManager;
     private TaskManagerAdapter mAdapter;
     public String mCurrentTask;
-    private ExampleDialogListner listner;
+    private ExampleDialoglistener listener;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -53,7 +53,7 @@ public class ExampleDialog1 extends AppCompatDialogFragment {
 
                 mCurrentTask = mTasksList.get(position).getTaskName();
                 System.out.println("current task is"+mCurrentTask);
-                /*listner.applyTexts(mCurrentTask);*/
+                listener.applyTexts(mCurrentTask);
 
 
             }
@@ -85,15 +85,15 @@ public class ExampleDialog1 extends AppCompatDialogFragment {
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        listner.applyTexts(mCurrentTask);
-                        openDialog();
 
                     }
                 })
                 .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-
+                        listener.applyTexts(mCurrentTask);
+                        mCurrentTask = "sadasd";
+                        openDialog();
                     }
                 });
         return builder.create();
@@ -107,7 +107,7 @@ public class ExampleDialog1 extends AppCompatDialogFragment {
         super.onAttach(context);
 
         try {
-            listner = (ExampleDialogListner) context;
+            listener = (ExampleDialoglistener) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString() +
                     "must implement ExampleDialogListener");
@@ -126,7 +126,7 @@ public class ExampleDialog1 extends AppCompatDialogFragment {
 
     }
 
-    public interface ExampleDialogListner{
+    public interface ExampleDialoglistener{
 
         void applyTexts(String task);
     }

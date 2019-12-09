@@ -1,25 +1,16 @@
 package com.alsahmou.focusapp;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.SystemClock;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup.LayoutParams;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -31,7 +22,7 @@ import java.time.Duration;
 import java.util.Locale;
 
 
-public class MainActivity extends AppCompatActivity implements ExampleDialog1.ExampleDialogListner {
+public class MainActivity extends AppCompatActivity implements ExampleDialog1.ExampleDialoglistener {
 
     private EditText mTimeEditText;
     private EditText mAddNoteEditText;
@@ -65,6 +56,8 @@ public class MainActivity extends AppCompatActivity implements ExampleDialog1.Ex
 
     private PopupWindow mTaskPopupWindow;
     private RelativeLayout mRelativeLayout;
+    private TextView mTaskTextView;
+    public String mtask;
 
 
     @Override
@@ -96,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements ExampleDialog1.Ex
         mTimeLeftInMillis = Constants.DEFAULT_TIMER_VALUE;
 
         mRelativeLayout = findViewById(R.id.mainRelativeLayout);
+        mTaskTextView = findViewById(R.id.taskTextView);
 
         //popUpEditText();
 
@@ -436,6 +430,9 @@ public class MainActivity extends AppCompatActivity implements ExampleDialog1.Ex
 
     @Override
     public void applyTexts(String task) {
+        mTaskTextView.setText(task);
+        mtask = task;
+        System.out.println(mtask+"mtask");
 
     }
 }
