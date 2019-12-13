@@ -22,18 +22,18 @@ public class ExampleDialog1 extends AppCompatDialogFragment {
     private TaskManagerAdapter mAdapter;
     public String mCurrentTask;
     private ExampleDialoglistener listener;
+    private ArrayList<String> arlist;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
+        //System.out.println("Saved instance state in example dialog 1"+savedInstanceState);
+
         createTasksList();
 
         mRecyclerView = new RecyclerView(getContext());
-
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
         mAdapter = new TaskManagerAdapter(mTasksList);
-
         mRecyclerView.setAdapter(mAdapter);
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity()) ;
@@ -43,7 +43,7 @@ public class ExampleDialog1 extends AppCompatDialogFragment {
             public void onItemClick(int position) {
 
                 mCurrentTask = "hi";
-                System.out.println("current task is"+mCurrentTask);
+                //System.out.println("current task is"+mCurrentTask);
 
             }
 
@@ -52,7 +52,7 @@ public class ExampleDialog1 extends AppCompatDialogFragment {
 
 
                 mCurrentTask = mTasksList.get(position).getTaskName();
-                System.out.println("current task is"+mCurrentTask);
+                System.out.println("current task after pressing delete button"+mCurrentTask);
                 listener.applyTexts(mCurrentTask);
 
 
@@ -92,7 +92,7 @@ public class ExampleDialog1 extends AppCompatDialogFragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         listener.applyTexts(mCurrentTask);
-                        mCurrentTask = "sadasd";
+                        //mCurrentTask = "sadasd";
                         openDialog();
                     }
                 });
@@ -116,7 +116,12 @@ public class ExampleDialog1 extends AppCompatDialogFragment {
 
     public void openDialog() {
         ExampleDialog exampleDialog = new ExampleDialog();
-        exampleDialog.show(getFragmentManager(), "asdasd");
+        Bundle bundle = new Bundle();
+        System.out.println("Current task in open dialog function"+mCurrentTask);
+        bundle.putStringArrayList("myArrayList", arlist = new ArrayList<String>());
+        arlist.add(mCurrentTask);
+        exampleDialog.setArguments(bundle);
+        exampleDialog.show(getFragmentManager(), "sdasdads");
     }
 
     public void createTasksList() {

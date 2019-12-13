@@ -19,6 +19,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.Locale;
 
 
@@ -58,6 +59,9 @@ public class MainActivity extends AppCompatActivity implements ExampleDialog1.Ex
     private RelativeLayout mRelativeLayout;
     private TextView mTaskTextView;
     public String mtask;
+    private ArrayList arlist;
+
+    private ArrayList tasksList;
 
 
     @Override
@@ -247,6 +251,10 @@ public class MainActivity extends AppCompatActivity implements ExampleDialog1.Ex
     public void openDialoge() {
 
         ExampleDialog exampleDialog = new ExampleDialog();
+        Bundle bundle = new Bundle();
+        bundle.putStringArrayList("myArrayList", arlist = new ArrayList<String>());
+        arlist.add("First Task");
+        exampleDialog.setArguments(bundle);
         exampleDialog.show(getSupportFragmentManager(), "example dialog");
 
     }

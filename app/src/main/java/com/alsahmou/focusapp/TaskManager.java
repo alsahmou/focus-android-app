@@ -64,7 +64,7 @@ public class TaskManager extends AppCompatActivity {
     public void createTasksList() {
 
         mTasksList = new ArrayList<>();
-        mTasksList.add(new TaskConstructor("Line1"));
+        mTasksList.add(new TaskConstructor("First Task"));
 
     }
 

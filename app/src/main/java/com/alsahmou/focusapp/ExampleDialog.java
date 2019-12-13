@@ -17,9 +17,19 @@ public class ExampleDialog extends AppCompatDialogFragment implements ExampleDia
     private TextView dialogText;
     private ExampleDialog1 dialog;
     private String stask;
+    private String currentTask;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+        this.getArguments();
+
+        System.out.println("Get arguments in example dialog"+this.getArguments());
+        System.out.println("get arguments Array List"+this.getArguments().getStringArrayList("myArrayList"));
+        System.out.println("get args array list first element"+this.getArguments().getStringArrayList("myArrayList").get(0));
+        currentTask = this.getArguments().getStringArrayList("myArrayList").get(0);
+        System.out.println("current task in dialog "+currentTask);
+
+
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
@@ -29,11 +39,11 @@ public class ExampleDialog extends AppCompatDialogFragment implements ExampleDia
         MainActivity main = new MainActivity();
         dialog = new ExampleDialog1();
         String atask = dialog.mCurrentTask;
-        System.out.println("passing variable Example Dialog"+ atask);
+        //System.out.println("passing variable Example Dialog"+ atask);
 
         stask = main.mtask;
-        System.out.println("stask Example Dialog"+stask);
-        System.out.println(dialog.mCurrentTask+"current task in first Example Dialog");
+        //System.out.println("stask Example Dialog"+stask);
+        //System.out.println(dialog.mCurrentTask+"current task in first Example Dialog");
 
         builder.setView(view)
                 .setTitle("Task Fixer")
@@ -64,7 +74,7 @@ public class ExampleDialog extends AppCompatDialogFragment implements ExampleDia
         editTextUsername = view.findViewById(R.id.edit_username);
         dialogText = view.findViewById(R.id.dialogtext);
         //System.out.println(dialog.mCurrentTask+"current task in first");
-        //dialogText.setText(dialog.mCurrentTask);
+        dialogText.setText(currentTask);
         return builder.create();
 
     }
@@ -76,7 +86,7 @@ public class ExampleDialog extends AppCompatDialogFragment implements ExampleDia
 
     @Override
     public void applyTexts(String task) {
-        System.out.println("task in apply texts in dialog Example Dialog"+task);
+        //System.out.println("task in apply texts in dialog Example Dialog"+task);
         dialogText.setText(task);
     }
 }
